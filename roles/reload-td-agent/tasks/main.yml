@@ -1,0 +1,14 @@
+- name: td-agent config test
+  shell: sudo /usr/sbin/td-agent --dry-run -q -c /etc/td-agent/td-agent.conf
+  args:
+    warn: no
+  changed_when: false
+
+- name: td-agent stopped
+  systemd: name=td-agent.service state=stopped
+
+- name: td-agent started
+  systemd: name=td-agent.service state=started
+
+# - name: td-agent reloaded
+#   systemd: name=td-agent.service state=reloaded

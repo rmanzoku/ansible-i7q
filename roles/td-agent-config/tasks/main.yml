@@ -1,0 +1,6 @@
+- gem: executable=/usr/sbin/td-agent-gem name={{ item }} user_install=no
+  with_items:
+    - fluent-plugin-mysqlslowquery
+
+- copy: src=etc/td-agent/td-agent.conf dest=/etc/td-agent/td-agent.conf owner=root group=root mode=0644
+
