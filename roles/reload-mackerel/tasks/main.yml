@@ -1,0 +1,12 @@
+- name: mackerel config test
+  shell: /usr/bin/mackerel-agent configtest
+  args:
+    warn: no
+  changed_when: false
+
+- name: mackerel-agent started
+  systemd: name=mackerel-agent.service state=started
+
+- name: mackerel-agent reloaded
+  #shell: sudo /etc/init.d/mackerel-agent reload
+  systemd: name=mackerel-agent.service state=reloaded

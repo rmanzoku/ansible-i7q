@@ -1,0 +1,13 @@
+- name: Sync mackerel conf
+  synchronize:
+    src: etc/mackerel-agent/
+    dest: /etc/mackerel-agent/
+    recursive: yes
+    delete: yes
+    owner: no
+    group: no
+    perms: no
+    rsync_opts:
+      - "--exclude=common"
+
+- service: name=mackerel-agent.service enabled=yes
