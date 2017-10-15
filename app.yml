@@ -1,0 +1,8 @@
+- hosts: app
+  become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  roles:
+    - install-mackerel
+    - { role: install-td-agent, td_agent_version: 2.3.6-0 }
+

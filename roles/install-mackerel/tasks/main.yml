@@ -1,0 +1,26 @@
+# https://mackerel.io/file/script/setup-all-apt-v2.sh
+- name: Add apt key
+  apt_key:
+    url: "https://mackerel.io/file/cert/GPG-KEY-mackerel-v2"
+
+- name: Add apt repo
+  apt_repository:
+    repo: "deb http://apt.mackerel.io/v2/ mackerel contrib"
+
+- name: Update apt
+  apt: update_cache=yes
+  changed_when: no
+
+- name: Install mackerel-agent and plugins
+  apt: name={{ item }} state=latest
+  with_items:
+    - mackerel-agent
+    - mackerel-agent-plugins
+    - mackerel-check-plugins
+
+- name: Make conf.d directory
+  file: state=directory path=/etc/mackerel-agent/conf.d owner=root group=root
+
+- name: systemd daemon reload
+  systemd: name=mackerel-agent.service enabled=no daemon_reload=yes
+
