@@ -1,0 +1,26 @@
+- file: path=/usr/local/redis-dist/ state=directory
+
+- stat: path=/usr/local/redis-dist/redis-{{ redis_version }}/src/redis-server
+  register: check_installed
+
+- block:
+    - name: "Get source"
+      get_url: url=http://download.redis.io/releases/redis-{{ redis_version }}.tar.gz
+               dest=/tmp/ mode=0440
+
+    - name: "Expand source"
+      unarchive: src=/tmp/redis-{{ redis_version }}.tar.gz dest=/usr/local/redis-dist/ creates=yes copy=no
+
+    - name: "make"
+      command: make chdir=/usr/local/redis-dist/redis-{{ redis_version }}
+  when: check_installed.stat.exists == false
+
+- file: src=/usr/local/redis-dist/redis-{{ redis_version }} dest=/usr/local/redis state=link
+
+- file: src=/usr/local/redis/src/redis-cli dest=/usr/bin/redis-cli state=link force=yes
+
+- file: src=/usr/local/redis/src/redis-server dest=/usr/bin/redis-server state=link force=yes
+
+- copy: src=etc/systemd/system/redis.service dest=/etc/systemd/system/redis.service mode=0655
+
+- systemd: name=redis.service enabled=no daemon_reload=yes

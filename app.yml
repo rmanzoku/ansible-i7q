@@ -3,6 +3,14 @@
   vars:
     ansible_python_interpreter: /usr/bin/python3
   roles:
+    - install-standard-packages
     - install-mackerel
     - { role: install-td-agent, td_agent_version: 2.3.6-0 }
 
+    - { tags: t, role: td-agent-config }
+    - { tags: t, role: reload-td-agent }
+
+    - { tags: m, role: mackerel-config }
+    - { tags: m, role: reload-mackerel }
+
+    - { tags: r, role: install-redis-from-source, redis_version: 4.0.2 }
