@@ -10,7 +10,7 @@
     - { role: install-td-agent, td_agent_version: 2.3.6-0 }
     - install-mackerel
     - { role: install-redis-from-source, redis_version: 4.0.2 }
-    - install-mysql
+    # - install-mysql
 
     - { tags: n, role: nginx-config }
     - { tags: n, role: reload-nginx }
