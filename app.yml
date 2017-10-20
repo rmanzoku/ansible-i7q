@@ -23,3 +23,6 @@
 
     - { tags: r, role: redis-config }
     - { tags: r, role: restart-redis }
+
+    - { tags: my, role: mysql-config }
+    - { tags: my, role: restart-mysql }
