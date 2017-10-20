@@ -20,4 +20,5 @@
     - { tags: m, role: mackerel-config }
     - { tags: m, role: reload-mackerel }
 
-
+    - { tags: r, role: redis-config }
+    - { tags: r, role: restart-redis }

@@ -1,0 +1,10 @@
+- file: path=/etc/redis/ state=directory owner=root group=root mode=0755
+
+- synchronize:
+    src: etc/redis/
+    dest: /etc/redis/
+    recursive: yes
+    delete: yes
+    owner: no
+    group: no
+    perms: no
