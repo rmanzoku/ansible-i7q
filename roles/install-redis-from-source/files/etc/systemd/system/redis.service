@@ -9,8 +9,8 @@ ExecStart=/usr/bin/redis-server /etc/redis/redis.conf
 PIDFile=/var/run/redis/redis-server.pid
 TimeoutStopSec=0
 Restart=always
-User=redis
-Group=redis
+User=root
+Group=root
 
 ExecStartPre=-/bin/run-parts --verbose /etc/redis/redis-server.pre-up.d
 ExecStartPost=-/bin/run-parts --verbose /etc/redis/redis-server.post-up.d

@@ -23,4 +23,8 @@
 
 - copy: src=etc/systemd/system/redis.service dest=/etc/systemd/system/redis.service mode=0655
 
-- systemd: name=redis.service enabled=no daemon_reload=yes
+- file: path=/var/log/redis/ state=directory
+
+- file: path=/var/run/redis/ state=directory
+
+- systemd: name=redis.service enabled=yes daemon_reload=yes
