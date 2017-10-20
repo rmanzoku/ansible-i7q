@@ -9,3 +9,6 @@
 
 - name: mysql reloaded
   systemd: name=mysql.service state=restarted
+
+- name: friction
+  shell: /usr/bin/friction -host=127.0.0.1 -user=root -password=root sys

@@ -1,1 +1,3 @@
-- apt: name=mysql-server-5.7 state=present
+# - apt: name=mysql-server-5.7 state=present
+
+- copy: src=usr/bin/friction dest=/usr/bin/friction mode=0755
