@@ -1,0 +1,23 @@
+- group: name=spkills gid=1600 state=present
+
+- copy: src=etc/sudoers.d/spkills_users dest=/etc/sudoers.d/spkills_users owner=root group=root mode=0644
+
+- user:
+    state: "{{ item.state | default('present') }}"
+    name: "{{ item.name }}"
+    shell: "{{ item.shell | default('/bin/bash') }}"
+  with_items: "{{ users }}"
+
+- file: state=directory path="/home/{{ item.name }}" owner={{ item.name }} group={{ item.name }} mode="o-rwx"
+  with_items: "{{ users }}"
+
+- name: Set authorized key took from github
+  authorized_key:
+    user: "{{ item.name }}"
+    state: present
+    key: "{{ 'https://github.com/' + item.name + '.keys' }}"
+  with_items: "{{ users }}"
+
+- user: name={{ item.name }} groups=spkills append=yes state=present
+  with_items:
+    - "{{ users }}"
