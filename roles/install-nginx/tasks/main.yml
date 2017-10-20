@@ -1,0 +1,53 @@
+- name: "Check Nginx already installed"
+  stat: path=/usr/local/nginx/sbin/nginx
+  register: nginx_installed
+
+- name: "Install nginx dependencies"
+  apt: name={{ item }} state=present
+  with_items:
+    - gcc
+    - make
+    - libpcre3-dev
+    - zlib1g-dev
+    - libssl-dev
+
+- group: name=nginx gid=3001
+
+- user: name=nginx uid=3001 group=nginx home=/var/run/nginx createhome=no shell=/sbin/nologin
+
+- block:
+    - name: "Get nginx source"
+      get_url: url=http://nginx.org/download/nginx-{{ nginx_version }}.tar.gz
+               dest=/tmp/nginx-{{ nginx_version }}.tar.gz mode=0440
+
+    - name: "Expand nginx source"
+      unarchive: src=/tmp/nginx-{{ nginx_version }}.tar.gz dest=/tmp/ creates=yes copy=no
+
+    - name: "Run configure"
+      command: >
+        ./configure
+        --with-http_stub_status_module
+        --with-http_ssl_module
+        --with-http_realip_module
+        --with-http_gzip_static_module
+        --with-http_v2_module
+      args:
+        chdir: /tmp/nginx-{{ nginx_version }}
+
+
+    - make:
+        chdir: /tmp/nginx-{{ nginx_version }}
+
+    - make:
+        chdir: /tmp/nginx-{{ nginx_version }}
+        target: install
+
+  when: not nginx_installed.stat.exists
+
+- copy: src=lib/systemd/system/nginx.service dest=/lib/systemd/system/nginx.service owner=root group=root mode=0644
+
+- systemd: name=nginx.service enabled=yes daemon_reload=yes
+
+- file: path=/etc/nginx/ state=directory owner=root group=root mode=0755
+
+- file: path=/var/log/nginx/ state=directory owner=root group=root mode=0755

@@ -5,8 +5,14 @@
   roles:
     - install-standard-packages
     - create-users
-    - install-mackerel
+
+    - { role: install-nginx, nginx_version: 1.13.6 }
     - { role: install-td-agent, td_agent_version: 2.3.6-0 }
+    - install-mackerel
+    - { role: install-redis-from-source, redis_version: 4.0.2 }
+
+    - { tags: n, role: nginx-config }
+    - { tags: n, role: reload-nginx }
 
     - { tags: t, role: td-agent-config }
     - { tags: t, role: reload-td-agent }
@@ -14,4 +20,4 @@
     - { tags: m, role: mackerel-config }
     - { tags: m, role: reload-mackerel }
 
-    - { tags: r, role: install-redis-from-source, redis_version: 4.0.2 }
+
