@@ -26,3 +26,6 @@
 
     - { tags: my, role: mysql-config }
     - { tags: my, role: restart-mysql }
+
+    - { tags: sys, role: sysctl-config }
+    - { tags: sys, role: reload-sysctl }
