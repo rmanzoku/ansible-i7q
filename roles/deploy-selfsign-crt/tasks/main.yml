@@ -1,0 +1,4 @@
+- copy: src=etc/ssl/{{ item }} dest=/etc/ssl/{{ item }}
+  with_items:
+    - certs/selfsign.crt
+    - private/selfsign.key
