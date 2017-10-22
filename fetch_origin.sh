@@ -1,13 +1,13 @@
 #!/bin/bash
 
-SERVERS="172.31.18.220"
+SERVERS="app1 app2 app3"
 
 for S in $SERVERS
 do
     mkdir -p ./_origin/$S/etc/
     mkdir -p ./_origin/$S/home/
 
-    for d in "/etc/nginx" "/etc/mysql" "/etc/redis" "/etc/sysctl.d/" "/etc/sysctl.conf" "/home/isucon"
+    for d in "/etc/nginx" "/etc/mysql" "/etc/redis" "/etc/sysctl.d/" "/etc/sysctl.conf"
     do
 	echo ./_origin/$S$d
 	if [ -e ./_origin/$S$d ]; then
