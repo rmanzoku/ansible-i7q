@@ -1,0 +1,44 @@
+- hosts: all
+  become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  roles:
+    # - install-standard-packages
+    - create-users
+    - install-mackerel
+    - { tags: m, role: mackerel-config }
+    - { tags: m, role: reload-mackerel }
+
+
+# - hosts: app
+#   become: yes
+#   vars:
+#     ansible_python_interpreter: /usr/bin/python3
+#   roles:
+#     # - install-standard-packages
+#     - deploy-selfsign-crt
+#     - systemd-config
+
+#     #- { tags: ni, role: install-nginx, nginx_version: 1.13.6 }
+#     # - { tags: t, role: install-td-agent, td_agent_version: 2.3.6-0 }
+
+#     # - { tags: r, role: install-redis-from-source, redis_version: 4.0.2 }
+#     # - { tags: my, role: install-mysql }
+
+#     - { tags: n, role: nginx-config }
+#     - { tags: n, role: reload-nginx }
+
+
+
+    # - { tags: t, role: td-agent-config }
+    # - { tags: t, role: reload-td-agent }
+
+
+    # - { tags: r, role: redis-config }
+    # - { tags: r, role: restart-redis }
+
+    # - { tags: my, role: mysql-config }
+    # - { tags: my, role: restart-mysql }
+
+    # - { tags: sys, role: sysctl-config }
+    # - { tags: sys, role: reload-sysctl }
